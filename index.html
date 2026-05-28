@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Neon Stack | 俄罗斯方块</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <section class="hero panel">
+        <p class="eyebrow">AINative Workflow</p>
+        <div class="hero__headline">
+          <span class="hero__kicker">Arcade Sprint</span>
+          <h1>Neon Stack</h1>
+        </div>
+        <p class="hero__copy">
+          一个偏街机气质的俄罗斯方块版本，主打流畅手感、清晰反馈和移动端也能顺手操作的布局。
+        </p>
+        <div class="hero__actions">
+          <button class="button button--primary" id="start-button" type="button">
+            开始游戏
+          </button>
+          <button class="button button--ghost" id="pause-button" type="button">
+            暂停
+          </button>
+        </div>
+        <div class="hero__tips">
+          <span>键盘：方向键 / Z / X / Space / P</span>
+          <span>移动端：页面内触控按钮</span>
+          <span>支持最高分本地记录</span>
+        </div>
+      </section>
+
+      <main class="game-layout">
+        <section class="board-panel panel">
+          <div class="board-panel__header">
+            <div>
+              <p class="eyebrow">Live Match</p>
+              <h2 id="status-title">准备就绪</h2>
+              <p class="status-detail" id="status-detail">
+                按 Enter / Space 开局，方向键移动，P 暂停。
+              </p>
+            </div>
+            <div class="level-pill" id="level-pill">Lv. 1</div>
+          </div>
+
+          <div class="board-wrap">
+            <canvas
+              id="game-board"
+              width="300"
+              height="600"
+              aria-label="俄罗斯方块游戏棋盘"
+            ></canvas>
+
+            <button class="board-overlay is-visible" id="board-overlay" type="button">
+              <span class="board-overlay__title" id="overlay-title">点击开局</span>
+              <span class="board-overlay__text" id="overlay-text">
+                方块会持续提速，留意底部缺口和右侧的下一个方块。
+              </span>
+            </button>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="stats panel">
+            <div class="stat-card">
+              <span class="stat-card__label">分数</span>
+              <strong class="stat-card__value" id="score-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">消行</span>
+              <strong class="stat-card__value" id="lines-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">最高分</span>
+              <strong class="stat-card__value" id="best-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-card__label">等级</span>
+              <strong class="stat-card__value" id="level-value">1</strong>
+            </div>
+          </section>
+
+          <section class="preview panel">
+            <div class="panel__title-row">
+              <h3>下一个方块</h3>
+              <span class="panel__caption">预判走位</span>
+            </div>
+            <canvas
+              id="next-piece"
+              width="120"
+              height="120"
+              aria-label="下一个方块预览"
+            ></canvas>
+          </section>
+
+          <section class="scoring panel">
+            <div class="panel__title-row">
+              <h3>计分规则</h3>
+              <span class="panel__caption">等级越高倍率越高</span>
+            </div>
+            <ul class="rules-list">
+              <li><span>软降</span><strong>+1 / 格</strong></li>
+              <li><span>硬降</span><strong>+2 / 格</strong></li>
+              <li><span>单消</span><strong>100 × Lv</strong></li>
+              <li><span>双消</span><strong>300 × Lv</strong></li>
+              <li><span>三消</span><strong>500 × Lv</strong></li>
+              <li><span>Tetris</span><strong>800 × Lv</strong></li>
+            </ul>
+          </section>
+
+          <section class="controls panel">
+            <div class="panel__title-row">
+              <h3>触控操作</h3>
+              <span class="panel__caption">长按方向键可持续移动</span>
+            </div>
+            <div class="controls-grid">
+              <button class="control-button" data-action="left" type="button" aria-label="左移">
+                ◀
+              </button>
+              <button class="control-button" data-action="rotate" type="button" aria-label="旋转">
+                ↻
+              </button>
+              <button class="control-button" data-action="right" type="button" aria-label="右移">
+                ▶
+              </button>
+              <button class="control-button control-button--wide" data-action="down" type="button" aria-label="加速下落">
+                ▼ 下落
+              </button>
+              <button class="control-button control-button--wide" data-action="drop" type="button" aria-label="直接落底">
+                ⤓ 落底
+              </button>
+              <button class="control-button control-button--wide" data-action="pause" type="button" aria-label="暂停或继续">
+                ❚❚ 暂停
+              </button>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
