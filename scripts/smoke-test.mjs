@@ -21,7 +21,9 @@ const checks = [
   {
     path: "/blog/responsive-reading-experience",
     expectedStatus: 200,
-    expectedText: "Next.js 官方文档"
+    expectedText: "技术博客详情页，优先保证阅读体验",
+    expectedPattern:
+      /<a(?=[^>]*href="https:\/\/nextjs\.org\/docs")(?=[^>]*target="_blank")(?=[^>]*rel="noopener noreferrer")[^>]*>Next\.js 官方文档<\/a>/
   },
   {
     path: "/blog/not-a-real-post",
@@ -56,6 +58,7 @@ async function waitForServer() {
 async function main() {
   const server = createServer();
   let stderr = "";
+  let failure = null;
 
   server.stderr.on("data", (chunk) => {
     stderr += chunk.toString();
@@ -70,8 +73,13 @@ async function main() {
 
       assert.equal(response.status, check.expectedStatus, `${check.path} returned ${response.status}`);
       assert.match(body, new RegExp(check.expectedText), `${check.path} did not include expected copy`);
+      if (check.expectedPattern) {
+        assert.match(body, check.expectedPattern, `${check.path} did not render the expected external link`);
+      }
       console.log(`${check.path} -> ${response.status}`);
     }
+  } catch (error) {
+    failure = error;
   } finally {
     server.kill("SIGTERM");
     await new Promise((resolve) => {
@@ -85,8 +93,11 @@ async function main() {
     });
   }
 
-  if (stderr.trim().length > 0) {
-    process.stderr.write(stderr);
+  if (failure) {
+    if (stderr.trim().length > 0) {
+      process.stderr.write(stderr);
+    }
+    throw failure;
   }
 }
 

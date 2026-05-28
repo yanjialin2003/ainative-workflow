@@ -1,14 +1,18 @@
 import type { MDXComponents } from "mdx/types";
 
 const components: MDXComponents = {
-  a: ({ href = "", ...props }) => {
+  a: ({ href = "", rel, target, ...props }) => {
     const isExternal = href.startsWith("http");
+    const externalRel = isExternal
+      ? Array.from(new Set([...(rel?.split(" ") ?? []), "noopener", "noreferrer"])).join(" ")
+      : rel;
+
     return (
       <a
         {...props}
         href={href}
-        rel={isExternal ? "noreferrer" : undefined}
-        target={isExternal ? "_blank" : undefined}
+        rel={externalRel}
+        target={isExternal ? "_blank" : target}
       />
     );
   }
