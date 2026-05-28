@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --ignore-pattern '.next' --ignore-pattern 'next-env.d.ts' --max-warnings=0",
+    "test": "npm run test:smoke",
+    "test:smoke": "npm run build && node scripts/smoke-test.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -19,6 +21,8 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.3.2",
     "@types/mdx": "^2.0.13",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",

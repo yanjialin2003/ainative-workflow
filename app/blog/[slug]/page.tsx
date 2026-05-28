@@ -5,6 +5,8 @@ import { SiteShell } from "@/app/components/site-shell";
 import { getPostBySlug, getPosts } from "@/lib/content";
 import { formatDate } from "@/lib/utils";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const posts = await getPosts();
   return posts.map((post) => ({
