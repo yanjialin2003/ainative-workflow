@@ -1,0 +1,32 @@
+export const metadata = {
+  title: "用 MVP 思路搭一版 Agent 工作流",
+  summary: "把角色分工、数据边界和最短用户路径先跑通，通常比一开始追求完整自动化更有效。",
+  publishedAt: "2026-05-12",
+  tags: ["Agent", "Workflow", "MVP"]
+};
+
+技术站点和 Agent 工作流有一个共通点：**先让主路径可用，再谈规模化扩展**。
+
+## 为什么先做最小闭环
+
+如果需求还在快速变化，最有价值的不是把每个模块都做完，而是先把这些问题回答清楚：
+
+- 页面和内容边界是否稳定
+- 数据来源能否被后续替换
+- 关键浏览路径是否可验证
+
+## 一个常见的拆法
+
+```ts
+type RuntimeBoundary = {
+  page: "home" | "blog-list" | "blog-detail";
+  source: "local-mdx";
+  contract: "getProfile | getPosts | getPostBySlug";
+};
+```
+
+先把契约固定下来，后面无论接 CMS 还是 API，页面层都不需要重写。
+
+## 结论
+
+MVP 的价值不是“功能少”，而是用最小实现去验证真正重要的产品判断。
